@@ -457,8 +457,12 @@ for player in players:
                             gameInfo['god'] = values['God:'][0]
                             gameInfo['piety'] = 0
                         else:
-                            gameInfo['god'] = values['God:'][0]
-                            gameInfo['piety'] = countChar(values['God:'][1], '*')
+                            if '*' in values['God:'][0]:
+                                gameInfo['piety'] = 0
+                                values['God:'][0] = values['God:'][0].replace('*','').strip()
+                            else:
+                                gameInfo['piety'] = countChar(values['God:'].pop(), '*')
+                            gameInfo['god'] = ' '.join(values['God:'])
 
                         gameInfo['godID'] = getID('Deity', gameInfo['god'])
                     elif 'Gold ' in line:

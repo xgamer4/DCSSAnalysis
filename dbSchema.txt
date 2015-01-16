@@ -1,0 +1,108 @@
+DCSS data schema:
+
+Crawl
+    Server (CREATE TABLE Server ( ID SMALLINT(2) NOT NULL AUTO_INCREMENT, Name VARCHAR(50) NOT NULL, PRIMARY KEY (ID)) )
+        ID
+        Name
+    Player (assumption: If player name is identical on multiple servers, it's same player)
+        ID
+        Name
+    Version
+        ID
+        VersionNum
+    Race
+        ID
+        Name
+    Class
+        ID
+        Name
+    Deity
+        ID
+        Name
+    Branch
+        ID
+        Name
+    Spell
+        ID 
+        Name
+    Game
+        ID - Primary Key, Auto_increment
+        ServerID - Foreign Key, Index
+        PlayerID - Foreign Key, Index
+        VersionID - Foregin Key, Index
+        RaceID - Foreign Key, Index
+        ClassID - Foreign Key, Index
+        DeityID - Foreign Key, Index
+        DeityPiety - SmallInt (0-5)
+        Title
+        StartTime
+        EndTime
+        Turns
+        PlayTime (minutes)
+        DeathBy
+        DeathLvl
+        DeathBranch
+        Score - Int
+    GameStats
+        GameID
+        CurHP
+        MaxHP
+        CurMP
+        MaxMP
+        Gold
+        AC
+        EV
+        SH
+        Str
+        Int
+        Dex
+        XL
+        SpellMem
+        SpellMax
+    GameResistance
+        GameID
+        rFire
+        rCold
+        rNeg
+        rPois
+        rElec
+        SustAb
+        rMut
+        Gourm
+        MR
+        SeeInvis
+        Clarity
+        rCorr
+        rRot
+        Spirit
+        Warding
+        NoTele
+    GameSkills
+        GameID
+        Skill
+        Level
+    GameEquipment
+        GameID
+        FullName
+        Modifier
+        Brand
+        BaseType
+        Effects
+        Worn
+    GameRunes
+        GameID
+        Rune
+    GameBranches
+        GameID
+        BranchID
+        ExploredFloors
+        TotalFloors
+    GameSpells
+        GameID
+        SpellID
+        
+        
+        
+        
+        
+        

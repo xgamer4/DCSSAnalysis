@@ -2,6 +2,7 @@
 import MySQLdb
 from datetime import datetime
 import os
+import re
 
 def getID(table, value): #Gets the ID of value from table; adds row if not there
 
@@ -83,10 +84,10 @@ def parseItem(line):
     
     item = line
     
-    if ' a ' in line:
-        item = item.replace(' a ', '')
-    if ' the ' in item:
-        item = item.replace('the ', '')
+    if 'a ' in line:
+        item = re.sub('^a ', '', item)
+    if 'the ' in item:
+        item = re.sub('^the ', '', item)
     
     split = line.split(' ')
     mod = '0'
@@ -104,6 +105,10 @@ def parseItem(line):
     if 'vampiric' in line:
         brand = 'vampiric'
         item = item.replace('vampiric', '').strip()
+    if 'antimagic' in line:
+        brand = 'antimagic'
+        item = item.replace('antimagic', '').strip()
+        
     elif '{' in line and 'unknown' not in line:
         brand = ''
         effects = item.split('{')
@@ -118,7 +123,7 @@ def parseItem(line):
         item = splitItem[0].strip()
         brand = splitItem[1].strip()
         
-    if 'gloves of' in item or 'boots of' in item:
+    elif 'gloves of' in item or 'boots of' in item:
         splitItem = item.split(' of ')
         item = 'pair of ' + splitItem[1].strip()
         brand = splitItem[2].strip()
@@ -167,9 +172,12 @@ def parseItem(line):
     if 'an ' in item:
         item = item.replace('an ', '').strip()
         
-    if not item:
-        print line
-        exit()
+    if 'bread rations' in line:
+        item = 'bread ration'
+        
+    if 'meat rations' in line:
+        item = 'meat ration'
+        
     return (line.strip(), mod.strip(), brand.strip(), item.strip(), effects.strip(), worn, known, cursed)
 
 SPECIES = ['Centaur', 'Deep Dwarf', 'Deep Elf', 'Demigod', 'Demonspawn', 'Draconian', 'Felid', 'Formicid', 'Gargoyle', 'Ghoul', 'Halfling', 'High Elf', 'Hill Orc', 'Human', 'Kobold', 'Merfolk', 'Minotaur', 'Mummy', 'Naga', 'Octopode', 'Ogre', 'Spriggan', 'Tengu', 'Troll', 'Vampire', 'Vine Stalker']
@@ -195,8 +203,8 @@ GAMESKILLINS = 'INSERT INTO `Crawl`.`GameSkills` (`GameID`, `Skill`, `Level`) VA
 
 GAMESTATINS = 'INSERT INTO `Crawl`.`GameStats` (`GameID`, `CurHP`, `MaxHP`, `CurMP`, `MaxMP`, `Gold`, `AC`, `EV`, `SH`, `Str`, `Intel`, `Dex`, `XL`, `SpellMem`, `SpellMax`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
 
-USERNAME = ''
-PASSWORD = ''
+USERNAME = 'root'
+PASSWORD = 'password'
 
 db = MySQLdb.connect(passwd=PASSWORD, db='Crawl', user=USERNAME)
 cursor = db.cursor()
